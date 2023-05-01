@@ -14,8 +14,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -48,8 +54,8 @@ class MainActivity : ComponentActivity() {
 fun MainContent(movielist:List<String> =listOf("Avatar","3000","PBS","Idą Święta","03.12.2022","Kot","pies","smacznego")) {
     Column(modifier = Modifier.padding(12.dp)) {
         LazyColumn{
-            items(items = movielist) {
-                MovieRow(movie = it) { movie -> Log.d("TAG", "MainContent:$movie") }
+            itemsIndexed(items = movielist) { index, movie ->
+                MovieRow(movie = movie) { movie2 -> Log.d("TAG", "MainContent:$movie2 - $index") }
             }
         }
     }
@@ -66,10 +72,12 @@ fun MovieRow(movie: String, onItemClick:(String) -> Unit = {}) {
                 onItemClick(movie)
             },
         shape = RoundedCornerShape(corner = CornerSize(26.dp)),
-        elevation = 16.dp
+        elevation = CardDefaults.cardElevation()
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Start) {
-            Surface(modifier = Modifier.padding(12.dp).size(100.dp), shape = RectangleShape, elevation = 4.dp) {
+            Surface(modifier = Modifier
+                .padding(12.dp)
+                .size(100.dp), shape = RectangleShape, tonalElevation = 4.dp) {
                 Icon(imageVector = Icons.Default.AccountBox, contentDescription = "Movie image")
             }
             Text(text = movie)
